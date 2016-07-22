@@ -12,7 +12,7 @@ class TicTacToe {
 	val map = new mutable.HashMap[Int, String]()
 
 	def markPosition(position: Int, symbol: String): Unit = {
-		map += (position -> "X")
+		map += (position -> symbol)
 	}
 
 	def printTic(): Unit = {
