@@ -1,14 +1,11 @@
 package exercise
 
-import scala.collection.mutable
-
 object App {
 	def main(args: Array[String]): Unit = {
 		val positionsList = List("1", "2", "3", "4", "5", "6", "7", "8", "9")
 		val ticTacToe = new TicTacToe
 		ticTacToe.printTic()
 		println("This is just a positive scenario")
-		var set = mutable.Set[String]()
 		for (validEntryCount <- 0 until 9) {
 			if (validEntryCount % 2 == 0) {
 				def captureXEntry(): String = {
@@ -18,7 +15,7 @@ object App {
 					while (rightEntry) {
 						if (positionsList.contains(entry)) {
 							rightEntry = false
-							while (set.contains(entry)) {
+							while (ticTacToe.isPositionTaken(entry)) {
 								println("Please re-enter a digit.This is already present")
 								entry = scala.io.StdIn.readLine()
 								while (entry == null || entry.isEmpty) {
@@ -30,7 +27,6 @@ object App {
 								println("Please re-enter a digit")
 								entry = scala.io.StdIn.readLine()
 							}
-							set += entry
 						} else {
 							println("Please re-enter a digit")
 							entry = scala.io.StdIn.readLine()
@@ -48,7 +44,7 @@ object App {
 					while (rightEntry) {
 						if (positionsList.contains(entry)) {
 							rightEntry = false
-							while (set.contains(entry)) {
+							while (ticTacToe.isPositionTaken(entry)) {
 								println("Please re-enter a digit.This is already present")
 								entry = scala.io.StdIn.readLine()
 								while (entry == null || entry.isEmpty) {
@@ -60,7 +56,6 @@ object App {
 								println("Please re-enter a digit")
 								entry = scala.io.StdIn.readLine()
 							}
-							set += entry
 						} else {
 							println("Please re-enter a digit")
 							entry = scala.io.StdIn.readLine()

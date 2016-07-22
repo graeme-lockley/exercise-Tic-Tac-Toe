@@ -15,6 +15,15 @@ class TicTacToe {
 		map += (position -> symbol)
 	}
 
+	def isPositionTaken(position: String): Boolean = {
+		try {
+			map.contains(position.toInt)
+		} catch {
+			case _: NumberFormatException => true
+		}
+	}
+
+
 	def printTic(): Unit = {
 		printTicTacToeBoard()
 		for (c <- strikes.indices) {
