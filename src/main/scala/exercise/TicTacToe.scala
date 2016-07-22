@@ -9,8 +9,14 @@ class TicTacToe {
 		Array(1, 4, 7), Array(2, 5, 8), Array(3, 6, 9),
 		Array(1, 5, 9), Array(3, 5, 7))
 
-	def printTic(map: mutable.HashMap[Int, String]): Unit = {
-		printTicTacToeBoard(map)
+	val map = new mutable.HashMap[Int, String]()
+
+	def markPosition(position: Int, symbol: String): Unit = {
+		map += (position -> "X")
+	}
+
+	def printTic(): Unit = {
+		printTicTacToeBoard()
 		for (c <- strikes.indices) {
 			var xCount = 0
 			var oCount = 0
@@ -45,7 +51,7 @@ class TicTacToe {
 
 	}
 
-	def printTicTacToeBoard(map: mutable.HashMap[Int, String]): Unit = {
+	def printTicTacToeBoard(): Unit = {
 		for (a <- 1 until 10) {
 			if (map.contains(a) && "X".equals(map(a))) {
 				print("X")
@@ -63,76 +69,4 @@ class TicTacToe {
 	}
 }
 
-object App {
-	def main(args: Array[String]): Unit = {
-		val positionsList = List("1", "2", "3", "4", "5", "6", "7", "8", "9")
-		val ticTacToe = new TicTacToe
-		val map = new mutable.HashMap[Int, String]()
-		ticTacToe.printTic(map)
-		println("This is just a positive scenario")
-		var set = mutable.Set[String]()
-		for (validEntryCount <- 0 until 9) {
-			if (validEntryCount % 2 == 0) {
-				println("This is X's turn. Please enter the position-digit")
-				var entry: String = scala.io.StdIn.readLine()
-				def validateEntryForX(): Unit = {
-					var rightEntry = true
-					while (rightEntry) {
-						if (positionsList.contains(entry)) {
-							rightEntry = false
-							while (set.contains(entry)) {
-								println("Please re-enter a digit.This is already present")
-								entry = scala.io.StdIn.readLine()
-								while (entry == null || entry.isEmpty) {
-									println("Please do not hit enter without pressing any key")
-									entry = scala.io.StdIn.readLine()
-								}
-							}
-							while (!positionsList.contains(entry)) {
-								println("Please re-enter a digit")
-								entry = scala.io.StdIn.readLine()
-							}
-							set += entry
-						} else {
-							println("Please re-enter a digit")
-							entry = scala.io.StdIn.readLine()
-						}
-					}
-				}
-				validateEntryForX()
-				map += (entry.toInt -> "X")
-			} else {
-				println("This is O's turn. Please enter the position")
-				var entry: String = scala.io.StdIn.readLine()
-				def validateEntryForO(): Unit = {
-					var rightEntry = true
-					while (rightEntry) {
-						if (positionsList.contains(entry)) {
-							rightEntry = false
-							while (set.contains(entry)) {
-								println("Please re-enter a digit.This is already present")
-								entry = scala.io.StdIn.readLine()
-								while (entry == null || entry.isEmpty) {
-									println("Please do not hit enter without pressing any key")
-									entry = scala.io.StdIn.readLine()
-								}
-							}
-							while (!positionsList.contains(entry)) {
-								println("Please re-enter a digit")
-								entry = scala.io.StdIn.readLine()
-							}
-							set += entry
-						} else {
-							println("Please re-enter a digit")
-							entry = scala.io.StdIn.readLine()
-						}
-					}
-				}
-				validateEntryForO()
-				map += (entry.toInt -> "O")
-			}
-			ticTacToe.printTic(map)
-		}
-		println("Match draw")
-	}
-}
+
