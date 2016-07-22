@@ -11,9 +11,9 @@ object App {
 		var set = mutable.Set[String]()
 		for (validEntryCount <- 0 until 9) {
 			if (validEntryCount % 2 == 0) {
-				println("This is X's turn. Please enter the position-digit")
-				var entry: String = scala.io.StdIn.readLine()
-				def validateEntryForX(): Unit = {
+				def captureXEntry(): String = {
+					println("This is X's turn. Please enter the position-digit")
+					var entry: String = scala.io.StdIn.readLine()
 					var rightEntry = true
 					while (rightEntry) {
 						if (positionsList.contains(entry)) {
@@ -36,13 +36,14 @@ object App {
 							entry = scala.io.StdIn.readLine()
 						}
 					}
+					entry
 				}
-				validateEntryForX()
+				val entry = captureXEntry()
 				ticTacToe.markPosition(entry.toInt, "X")
 			} else {
-				println("This is O's turn. Please enter the position")
-				var entry: String = scala.io.StdIn.readLine()
-				def validateEntryForO(): Unit = {
+				def captureYEntry(): String = {
+					println("This is O's turn. Please enter the position")
+					var entry: String = scala.io.StdIn.readLine()
 					var rightEntry = true
 					while (rightEntry) {
 						if (positionsList.contains(entry)) {
@@ -65,8 +66,9 @@ object App {
 							entry = scala.io.StdIn.readLine()
 						}
 					}
+					entry
 				}
-				validateEntryForO()
+				val entry = captureYEntry()
 				ticTacToe.markPosition(entry.toInt, "O")
 			}
 			ticTacToe.printTic()
