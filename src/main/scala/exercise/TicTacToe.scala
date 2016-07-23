@@ -3,12 +3,12 @@ package exercise
 import scala.util.control.Breaks._
 
 class TicTacToe {
-	val strikes = Array(
+	private val strikes = Array(
 		Array(1, 2, 3), Array(4, 5, 6), Array(7, 8, 9),
 		Array(1, 4, 7), Array(2, 5, 8), Array(3, 6, 9),
 		Array(1, 5, 9), Array(3, 5, 7))
 
-	val board = new Board()
+	private val board = new Board()
 
 	def markPosition(position: Position.Value, symbol: BoardValue.Value): Unit = board.markPosition(position, symbol)
 
