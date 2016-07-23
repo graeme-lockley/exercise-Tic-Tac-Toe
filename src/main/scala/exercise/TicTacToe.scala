@@ -9,19 +9,17 @@ class TicTacToe {
 		Array(1, 4, 7), Array(2, 5, 8), Array(3, 6, 9),
 		Array(1, 5, 9), Array(3, 5, 7))
 
-	val map = new mutable.HashMap[Int, String]()
+	val map = new mutable.HashMap[Position.Value, String]()
 
 	def markPosition(position: Int, symbol: String): Unit = {
-		map += (position -> symbol)
+		map += (Position(position - 1) -> symbol)
 	}
 
-	def isPositionTaken(position: String): Boolean = {
-		try {
-			map.contains(position.toInt)
-		} catch {
-			case _: NumberFormatException => true
+	def isPositionTaken(position: String): Boolean =
+		Position.fromString(position) match {
+			case Left(_) => true
+			case Right(v) => map.contains(v)
 		}
-	}
 
 
 	def printTic(): Unit = {
@@ -49,7 +47,7 @@ class TicTacToe {
 				}
 			}
 			for (b <- eachStrike.indices) {
-				val strike: Int = eachStrike(b)
+				val strike = Position(eachStrike(b) - 1)
 				if (map.contains(strike) && "X".equals(map(strike))) {
 					checkIfXWins()
 				} else if (map.contains(strike) && "O".equals(map(strike))) {
@@ -61,16 +59,16 @@ class TicTacToe {
 	}
 
 	def printTicTacToeBoard(): Unit = {
-		for (a <- 1 until 10) {
+		for (a <- Position.values) {
 			if (map.contains(a) && "X".equals(map(a))) {
 				print("X")
 			} else if (map.contains(a) && "O".equals(map(a))) {
 				print("O")
 			} else {
-				print(positions(a - 1))
+				print(a.id + 1)
 			}
 			print("     ")
-			if (a % 3 == 0) {
+			if ((a.id + 1) % 3 == 0) {
 				println()
 				println()
 			}
