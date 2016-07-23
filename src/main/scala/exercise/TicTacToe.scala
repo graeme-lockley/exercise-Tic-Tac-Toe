@@ -11,16 +11,9 @@ class TicTacToe {
 
 	val map = new mutable.HashMap[Position.Value, String]()
 
-	def markPosition(position: Int, symbol: String): Unit = {
-		map += (Position(position - 1) -> symbol)
-	}
+	def markPosition(position: Position.Value, symbol: String): Unit = map += (position -> symbol)
 
-	def isPositionTaken(position: String): Boolean =
-		Position.fromString(position) match {
-			case Left(_) => true
-			case Right(v) => map.contains(v)
-		}
-
+	def isPositionTaken(position: Position.Value): Boolean = map.contains(position)
 
 	def printTic(): Unit = {
 		printTicTacToeBoard()
@@ -69,5 +62,4 @@ class TicTacToe {
 		}
 	}
 }
-
 
