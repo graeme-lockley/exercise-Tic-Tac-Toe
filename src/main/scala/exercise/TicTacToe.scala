@@ -60,13 +60,7 @@ class TicTacToe {
 
 	def printTicTacToeBoard(): Unit = {
 		for (a <- Position.values) {
-			if (map.contains(a) && "X".equals(map(a))) {
-				print("X")
-			} else if (map.contains(a) && "O".equals(map(a))) {
-				print("O")
-			} else {
-				print(a.id + 1)
-			}
+			print(map.getOrElse(a, a.id + 1))
 			print("     ")
 			if ((a.id + 1) % 3 == 0) {
 				println()
