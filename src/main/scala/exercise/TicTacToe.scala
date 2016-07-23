@@ -14,6 +14,8 @@ class TicTacToe {
 
 	def isPositionTaken(position: Position.Value): Boolean = board.isPositionTaken(position)
 
+	def get(position: Position.Value): Option[BoardValue.Value] = board.get(position)
+
 	def status(): TicTacToeStatus = {
 		var result: Option[TicTacToeStatus] = empty
 
@@ -44,17 +46,6 @@ class TicTacToe {
 		}
 
 		result.getOrElse(if (board.isFull) GameTie() else InProgress())
-	}
-
-	def printTicTacToeBoard(): Unit = {
-		for (a <- Position.values) {
-			print(board.get(a).getOrElse(a.id + 1))
-			print("     ")
-			if ((a.id + 1) % 3 == 0) {
-				println()
-				println()
-			}
-		}
 	}
 }
 

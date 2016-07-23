@@ -1,33 +1,38 @@
 package exercise
 
-import scala.util.control.Breaks._
+import scala.annotation.tailrec
 
 object App {
 	def main(args: Array[String]): Unit = {
 		val ticTacToe = new TicTacToe()
 
-		ticTacToe.printTicTacToeBoard()
+		printTicTacToeBoard(ticTacToe)
 
 		val turns = BoardValue.values.toList
-		for (validEntryCount <- 0 until 9) {
-			val turn = turns(validEntryCount % 2)
+
+		@tailrec
+		def playRound(roundNumber: Int): Unit = {
+			val turn = turns(roundNumber % 2)
 			val entry = captureEntry(ticTacToe, turn)
+
 			ticTacToe.markPosition(entry, turn)
-			ticTacToe.printTicTacToeBoard()
+			printTicTacToeBoard(ticTacToe)
 
 			ticTacToe.status() match {
 				case GameTie() =>
 					println("Match drawn")
-					break()
 				case GameWon(winner) =>
 					println(s"$winner won the match")
-					break()
 				case InProgress() =>
+					playRound(roundNumber + 1)
 			}
 		}
+
+		playRound(1)
 	}
 
 	private def captureEntry(ticTacToe: TicTacToe, symbol: BoardValue.Value): Position.Value = {
+		@tailrec
 		def capturePosition(): Position.Value = {
 			val entry: String = scala.io.StdIn.readLine()
 			Position.fromString(entry) match {
@@ -46,5 +51,16 @@ object App {
 
 		println(s"This is $symbol's turn. Please enter the position-digit")
 		capturePosition()
+	}
+
+	private def printTicTacToeBoard(ticTacToe: TicTacToe): Unit = {
+		for (a <- Position.values) {
+			print(ticTacToe.get(a).getOrElse(a.id + 1))
+			print("     ")
+			if ((a.id + 1) % 3 == 0) {
+				println()
+				println()
+			}
+		}
 	}
 }
