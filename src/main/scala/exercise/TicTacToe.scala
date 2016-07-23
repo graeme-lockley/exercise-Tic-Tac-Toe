@@ -1,6 +1,7 @@
 package exercise
 
 import scala.Option.empty
+import scala.collection.mutable
 
 class TicTacToe {
 	private val strikes = Array(
@@ -20,40 +21,22 @@ class TicTacToe {
 		var result: Option[TicTacToeStatus] = empty
 
 		for (c <- strikes.indices if result.isEmpty) {
-			var xCount = 0
-			var oCount = 0
+			val count = mutable.HashMap(BoardValue.X -> 0, BoardValue.O -> 0)
 			val eachStrike = strikes(c)
-			def checkIfXWins(): Unit = {
-				xCount += 1
-				if (xCount == 3) {
-					result = Option(GameWon(BoardValue.X))
-				}
-			}
-			def checkIfOWins(): Unit = {
-				oCount += 1
-				if (oCount == 3) {
-					result = Option(GameWon(BoardValue.O))
-				}
-			}
 			for (b <- eachStrike.indices if result.isEmpty) {
 				val strike = Position(eachStrike(b) - 1)
-				if (board.get(strike).contains(BoardValue.X)) {
-					checkIfXWins()
-				} else if (board.get(strike).contains(BoardValue.O)) {
-					checkIfOWins()
+
+				def cellMarked(cellValue: BoardValue.Value): Unit = {
+					count(cellValue) = count(cellValue) + 1
+					if (count(cellValue) == 3) {
+						result = Option(GameWon(cellValue))
+					}
 				}
+
+				board.get(strike).foreach(cellMarked(_))
 			}
 		}
 
 		result.getOrElse(if (board.isFull) GameTie() else InProgress())
 	}
 }
-
-class TicTacToeStatus
-
-case class GameWon(winner: BoardValue.Value) extends TicTacToeStatus
-
-case class GameTie() extends TicTacToeStatus
-
-case class InProgress() extends TicTacToeStatus
-
