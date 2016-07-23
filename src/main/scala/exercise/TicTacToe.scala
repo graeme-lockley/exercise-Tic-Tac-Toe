@@ -3,7 +3,8 @@ package exercise
 import scala.util.control.Breaks._
 
 class TicTacToe {
-	val strikes = Array(Array(1, 2, 3), Array(4, 5, 6), Array(7, 8, 9),
+	val strikes = Array(
+		Array(1, 2, 3), Array(4, 5, 6), Array(7, 8, 9),
 		Array(1, 4, 7), Array(2, 5, 8), Array(3, 6, 9),
 		Array(1, 5, 9), Array(3, 5, 7))
 

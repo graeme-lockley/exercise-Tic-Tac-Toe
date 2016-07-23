@@ -6,8 +6,9 @@ object App {
 
 		ticTacToe.printTic()
 		println("This is just a positive scenario")
+		val turns = BoardValue.values.toList
 		for (validEntryCount <- 0 until 9) {
-			val turn = BoardValue.values.toList(validEntryCount % 2)
+			val turn = turns(validEntryCount % 2)
 			val entry = captureEntry(ticTacToe, turn)
 			ticTacToe.markPosition(entry, turn)
 			ticTacToe.printTic()
@@ -19,14 +20,15 @@ object App {
 		def capturePosition(): Position.Value = {
 			val entry: String = scala.io.StdIn.readLine()
 			Position.fromString(entry) match {
-				case Left(_) => println("Please re-enter a digit")
+				case Left(_) =>
+					println("Please re-enter a digit")
 					capturePosition()
-				case Right(v) =>
-					if (ticTacToe.isPositionTaken(v)) {
-						println("Please re-enter a digit.This is already present")
+				case Right(position) =>
+					if (ticTacToe.isPositionTaken(position)) {
+						println("Please re-enter a digit. This is already present")
 						capturePosition()
 					} else {
-						v
+						position
 					}
 			}
 		}
