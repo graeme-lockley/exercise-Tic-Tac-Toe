@@ -1,19 +1,17 @@
 package exercise
 
-import scala.collection.mutable
 import scala.util.control.Breaks._
 
 class TicTacToe {
-	val positions = List(1, 2, 3, 4, 5, 6, 7, 8, 9)
 	val strikes = Array(Array(1, 2, 3), Array(4, 5, 6), Array(7, 8, 9),
 		Array(1, 4, 7), Array(2, 5, 8), Array(3, 6, 9),
 		Array(1, 5, 9), Array(3, 5, 7))
 
-	val map = new mutable.HashMap[Position.Value, String]()
+	val board = new Board()
 
-	def markPosition(position: Position.Value, symbol: String): Unit = map += (position -> symbol)
+	def markPosition(position: Position.Value, symbol: BoardValue.Value): Unit = board.markPosition(position, symbol)
 
-	def isPositionTaken(position: Position.Value): Boolean = map.contains(position)
+	def isPositionTaken(position: Position.Value): Boolean = board.isPositionTaken(position)
 
 	def printTic(): Unit = {
 		printTicTacToeBoard()
@@ -41,19 +39,18 @@ class TicTacToe {
 			}
 			for (b <- eachStrike.indices) {
 				val strike = Position(eachStrike(b) - 1)
-				if (map.contains(strike) && "X".equals(map(strike))) {
+				if (board.get(strike).contains(BoardValue.X)) {
 					checkIfXWins()
-				} else if (map.contains(strike) && "O".equals(map(strike))) {
+				} else if (board.get(strike).contains(BoardValue.O)) {
 					checkIfOWins()
 				}
 			}
 		}
-
 	}
 
 	def printTicTacToeBoard(): Unit = {
 		for (a <- Position.values) {
-			print(map.getOrElse(a, a.id + 1))
+			print(board.get(a).getOrElse(a.id + 1))
 			print("     ")
 			if ((a.id + 1) % 3 == 0) {
 				println()
@@ -62,4 +59,5 @@ class TicTacToe {
 		}
 	}
 }
+
 
