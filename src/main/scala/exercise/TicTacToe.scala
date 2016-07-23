@@ -14,8 +14,7 @@ class TicTacToe {
 
 	def isPositionTaken(position: Position.Value): Boolean = board.isPositionTaken(position)
 
-	def printTic(): Unit = {
-		printTicTacToeBoard()
+	def status(): Unit = {
 		for (c <- strikes.indices) {
 			var xCount = 0
 			var oCount = 0
@@ -60,5 +59,4 @@ class TicTacToe {
 		}
 	}
 }
-
 

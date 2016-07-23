@@ -4,14 +4,15 @@ object App {
 	def main(args: Array[String]): Unit = {
 		val ticTacToe = new TicTacToe()
 
-		ticTacToe.printTic()
+		ticTacToe.printTicTacToeBoard()
 		println("This is just a positive scenario")
 		val turns = BoardValue.values.toList
 		for (validEntryCount <- 0 until 9) {
 			val turn = turns(validEntryCount % 2)
 			val entry = captureEntry(ticTacToe, turn)
 			ticTacToe.markPosition(entry, turn)
-			ticTacToe.printTic()
+			ticTacToe.printTicTacToeBoard()
+			ticTacToe.status()
 		}
 		println("Match draw")
 	}
