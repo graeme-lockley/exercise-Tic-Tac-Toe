@@ -6,7 +6,7 @@ object App {
 	def main(args: Array[String]): Unit = {
 		val ticTacToe = new TicTacToe()
 
-		printTicTacToeBoard(ticTacToe)
+		printBoard(ticTacToe)
 
 		val turns = BoardValue.values.toList
 
@@ -16,7 +16,7 @@ object App {
 			val entry = captureEntry(ticTacToe, turn)
 
 			ticTacToe.markPosition(entry, turn)
-			printTicTacToeBoard(ticTacToe)
+			printBoard(ticTacToe)
 
 			ticTacToe.status() match {
 				case GameTie() =>
@@ -53,7 +53,7 @@ object App {
 		capturePosition()
 	}
 
-	private def printTicTacToeBoard(ticTacToe: TicTacToe): Unit = {
+	private def printBoard(ticTacToe: TicTacToe): Unit = {
 		for (a <- Position.values) {
 			print(ticTacToe.get(a).getOrElse(a.id + 1))
 			print("     ")
