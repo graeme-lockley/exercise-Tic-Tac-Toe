@@ -54,13 +54,13 @@ object App {
 	}
 
 	private def printBoard(ticTacToe: TicTacToe): Unit = {
-		for (a <- Position.values) {
-			print(ticTacToe.get(a).getOrElse(a.id + 1))
+		Position.values.foreach(cell => {
+			print(ticTacToe.get(cell).getOrElse(cell.id + 1))
 			print("     ")
-			if ((a.id + 1) % 3 == 0) {
+			if ((cell.id + 1) % 3 == 0) {
 				println()
 				println()
 			}
-		}
+		})
 	}
 }
