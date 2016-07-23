@@ -1,6 +1,6 @@
 package exercise
 
-import scala.util.control.Breaks._
+import scala.Option.empty
 
 class TicTacToe {
 	private val strikes = Array(
@@ -14,30 +14,26 @@ class TicTacToe {
 
 	def isPositionTaken(position: Position.Value): Boolean = board.isPositionTaken(position)
 
-	def status(): Unit = {
-		for (c <- strikes.indices) {
+	def status(): TicTacToeStatus = {
+		var result: Option[TicTacToeStatus] = empty
+
+		for (c <- strikes.indices if result.isEmpty) {
 			var xCount = 0
 			var oCount = 0
-			var xTrue = false
-			var oTrue = false
 			val eachStrike = strikes(c)
 			def checkIfXWins(): Unit = {
 				xCount += 1
-				xTrue = true
-				if (xCount == 3 && xTrue) {
-					println("X won the match")
-					break()
+				if (xCount == 3) {
+					result = Option(GameWon(BoardValue.X))
 				}
 			}
 			def checkIfOWins(): Unit = {
 				oCount += 1
-				oTrue = true
-				if (oCount == 3 && oTrue) {
-					println("O won the match")
-					break()
+				if (oCount == 3) {
+					result = Option(GameWon(BoardValue.O))
 				}
 			}
-			for (b <- eachStrike.indices) {
+			for (b <- eachStrike.indices if result.isEmpty) {
 				val strike = Position(eachStrike(b) - 1)
 				if (board.get(strike).contains(BoardValue.X)) {
 					checkIfXWins()
@@ -46,6 +42,8 @@ class TicTacToe {
 				}
 			}
 		}
+
+		result.getOrElse(if (board.isFull) GameTie() else InProgress())
 	}
 
 	def printTicTacToeBoard(): Unit = {
@@ -59,4 +57,12 @@ class TicTacToe {
 		}
 	}
 }
+
+class TicTacToeStatus
+
+case class GameWon(winner: BoardValue.Value) extends TicTacToeStatus
+
+case class GameTie() extends TicTacToeStatus
+
+case class InProgress() extends TicTacToeStatus
 
