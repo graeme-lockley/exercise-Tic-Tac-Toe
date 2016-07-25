@@ -55,9 +55,9 @@ object App {
 
 	private def printBoard(ticTacToe: TicTacToe): Unit = {
 		Position.values.foreach(cell => {
-			print(ticTacToe.get(cell).getOrElse(cell.id + 1))
-			print("     ")
-			if ((cell.id + 1) % 3 == 0) {
+			val cellNumber = cell.id + 1
+			print(s"${ticTacToe.get(cell).getOrElse(cellNumber)}   ")
+			if (cellNumber % 3 == 0) {
 				println()
 				println()
 			}
